@@ -1,4 +1,4 @@
-class Ingredient {
+export default class Ingredient {
     constructor(minMixSpeed, mixSpeed, color, structure) {
         this.minMixSpeed = minMixSpeed;
         this.mixSpeed = mixSpeed;
@@ -20,5 +20,13 @@ class Ingredient {
 
     getStructure() {
         return this.structure;
+    }
+
+    createIngredientElement() {
+        const ingredientElement = document.createElement('div');
+        ingredientElement.classList.add('ingredient');
+        ingredientElement.style.backgroundColor = this.color;
+
+        return ingredientElement;
     }
 }

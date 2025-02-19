@@ -1,0 +1,21 @@
+.form-group {
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.form-label {
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+section {
+    padding: 20px;
+    border-top: lightgrey 2px solid;
+    border-bottom: lightgrey 2px solid;
+}
+
+.ingredient {
+    display: block;
+    width: 100px;
+    height: 100px;
+}
