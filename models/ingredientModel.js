@@ -27,6 +27,24 @@ export default class Ingredient {
         ingredientElement.classList.add('ingredient');
         ingredientElement.style.backgroundColor = this.color;
 
+        switch (this.structure) {
+            case 'korrel':
+                ingredientElement.style.borderRadius = '50%';
+                break;
+            case 'groveKorrel':
+                ingredientElement.style.borderRadius = '30%';
+                break;
+            case 'glad':
+                ingredientElement.style.borderRadius = '0%';
+                break;
+            case 'slijmerig':
+                ingredientElement.style.borderRadius = '10%';
+                ingredientElement.style.opacity = '0.8';
+                break;
+            default:
+                ingredientElement.style.borderRadius = '0%';
+        }
+
         return ingredientElement;
     }
 }
