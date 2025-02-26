@@ -24,7 +24,8 @@ export default class Ingredient {
 
     createIngredientElement() {
         const ingredientElement = document.createElement('div');
-        ingredientElement.classList.add('ingredient');
+        ingredientElement.classList.add('ingredient', 'draggable');
+        ingredientElement.draggable = true;
         ingredientElement.style.backgroundColor = this.color;
 
         switch (this.structure) {
