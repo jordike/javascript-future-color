@@ -19,3 +19,10 @@ section {
     width: 100px;
     height: 100px;
 }
+
+.pot {
+    display: block;
+    width: 100px;
+    height: 150px;
+    background-color: lightgrey;
+}
