@@ -1,4 +1,4 @@
-class Pot {
+export default class Pot {
     constructor() {
         this.ingredients = [];
     }
@@ -9,5 +9,12 @@ class Pot {
 
     getIngredients() {
         return this.ingredients;
+    }
+
+    createPotElement() {
+        const potElement = document.createElement('div');
+        potElement.className = 'pot';
+
+        return potElement;
     }
 }
