@@ -1,13 +1,13 @@
-export default class LocationModel {
-    static DEFAULT_CITY = "s-Hertogenbosch";  
-    static LOCAL_STORAGE_KEY = 'selectedCity';
+import config from "../assets/data/config";
 
+export default class LocationModel {
+    
     static getCity() {
-        const city = localStorage.getItem(LocationModel.LOCAL_STORAGE_KEY);
-        return city ? city : LocationModel.DEFAULT_CITY;
+        const city = localStorage.getItem(config.LOCAL_STORAGE_KEY);
+        return city ? city : config.DEFAULT_CITY;
     }
 
     static setCity(city) {
-        localStorage.setItem(LocationModel.LOCAL_STORAGE_KEY, city);
+        localStorage.setItem(config.LOCAL_STORAGE_KEY, city);
     }
 }
