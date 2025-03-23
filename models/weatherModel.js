@@ -11,9 +11,9 @@ export default class WeatherModel {
             const response = await fetch(config.WEATHER_API_URL + city);
             const data = await response.json();
 
-            //Extracting only necessary data
-            const { temp, image } = data.liveweer[0];
-            const extractedData = { city, temp, condition: image };
+            
+            const { temp, image } = data.liveweer[0]; //Extracting only necessary data
+            const extractedData = { city, temp, condition: image }; //Changed image to condition to make it more readable
             localStorage.setItem('weatherData', JSON.stringify(extractedData));
             localStorage.setItem('lastFetched', currentTime);
 

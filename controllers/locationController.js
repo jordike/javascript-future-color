@@ -26,7 +26,7 @@ export default class LocationController {
                 });
 
                 //Selects default or last selected city. 
-                dropdown.value = LocationModel.getCity();
+                dropdown.value = LocationController.getCity();
 
                 const applyButton = document.getElementById('applyCityButton');
                 applyButton.addEventListener('click', () => {
