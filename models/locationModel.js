@@ -1,4 +1,4 @@
-import config from "../assets/data/config";
+import config from "../assets/data/config.js";
 
 export default class LocationModel {
     
