@@ -1,4 +1,5 @@
 import Ingredient from '../models/ingredientModel.js';
+import { registerDraggableElement } from '../utils/dragAndDrop.js';
 
 export default class IngredientController {
     constructor() {
@@ -19,6 +20,8 @@ export default class IngredientController {
 
         const ingredientElement = ingredient.createIngredientElement();
         this.ingredientsContainer.appendChild(ingredientElement);
+
+        registerDraggableElement(ingredientElement);
     }
 
     onFormSubmit(event) {

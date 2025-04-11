@@ -21,9 +21,13 @@ section {
 }
 
 .pot {
-    display: block;
-    width: 100px;
-    height: 150px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 200px;
+    min-height: 300px;
+    padding: 5px;
+    gap: 5px;
     background-color: lightgrey;
 }
 

@@ -27,6 +27,12 @@ export default class Ingredient {
         ingredientElement.classList.add('ingredient', 'draggable');
         ingredientElement.draggable = true;
         ingredientElement.style.backgroundColor = this.color;
+        ingredientElement.dataset.dragData = JSON.stringify({
+            minMixSpeed: this.minMixSpeed,
+            mixSpeed: this.mixSpeed,
+            color: this.color,
+            structure: this.structure
+        });
 
         switch (this.structure) {
             case 'korrel':

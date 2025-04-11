@@ -1,8 +1,10 @@
 import Pot from '../models/potModel.js';
+import { registerDroppableElement } from '../utils/dragAndDrop.js';
 
 export default class PotController {
     constructor() {
         this.pots = [];
+        this.potIdCounter = 0;
 
         this.form = document.querySelector('#pots-form');
         this.potsContainer = document.querySelector('#pots');
@@ -19,13 +21,25 @@ export default class PotController {
 
         const potElement = pot.createPotElement();
         this.potsContainer.appendChild(potElement);
+
+        registerDroppableElement(potElement, this.onIngredientDrop.bind(this));
     }
 
     onFormSubmit(event) {
         event.preventDefault();
 
-        const pot = new Pot();
+        const pot = new Pot(++this.potIdCounter);
 
         this.addPot(pot);
+    }
+
+    onIngredientDrop(potId, ingredient) {
+        const pot = this.pots.find(pot => pot.id == potId);
+
+        if (!pot) {
+            throw new Error(`Pot with id ${potId} not found`);
+        }
+
+        pot.addIngredient(ingredient);
     }
 }
