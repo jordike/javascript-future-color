@@ -22,7 +22,7 @@ export default class PotController {
         const potElement = pot.createPotElement();
         this.potsContainer.appendChild(potElement);
 
-        registerDroppableElement(potElement, this.onIngredientDrop.bind(this));
+        registerDroppableElement(potElement, this.onIngredientDrop.bind(this), this.canDropIngredient.bind(this));
     }
 
     onFormSubmit(event) {
@@ -41,5 +41,15 @@ export default class PotController {
         }
 
         pot.addIngredient(ingredient);
+    }
+
+    canDropIngredient(event, ingredient) {
+        const pot = this.pots.find(pot => pot.id == event.target.dataset.dragDropId);
+
+        if (!pot) {
+            throw new Error(`Pot with id ${event.target.dataset.dragDropId} not found`);
+        }
+
+        return pot.canAddIngredient(ingredient);
     }
 }

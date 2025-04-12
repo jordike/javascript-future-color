@@ -1,13 +1,12 @@
 export function registerDraggableElement(element) {
     element.addEventListener('dragstart', event => {
         const dragData = event.target.dataset.dragData;
-        const dragDataJson = JSON.stringify(dragData);
 
-        event.dataTransfer.setData('application/json', dragDataJson);
+        event.dataTransfer.setData('application/json', dragData);
     });
 }
 
-export function registerDroppableElement(element, dropHandler) {
+export function registerDroppableElement(element, dropHandler, canDropCallback) {
     element.addEventListener('dragenter', event => {
         if (!event.target.classList.contains('droppable')) {
             return;
@@ -37,14 +36,18 @@ export function registerDroppableElement(element, dropHandler) {
             return;
         }
 
-        event.preventDefault();
+        const dragData = event.dataTransfer.getData('application/json');
+        const parsedDragData = JSON.parse(dragData);
 
+        if (canDropCallback && !canDropCallback(event, parsedDragData)) {
+            return;
+        }
+
+        event.preventDefault();
         event.target.classList.remove('hovering');
 
-        const dragData = event.dataTransfer.getData('application/json');
-        const dragDataObj = JSON.parse(dragData);
         const dropTargetId = event.target.dataset.dragDropId;
 
-        dropHandler(dropTargetId, dragDataObj);
+        dropHandler(dropTargetId, parsedDragData);
     });
 }

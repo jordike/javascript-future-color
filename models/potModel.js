@@ -5,10 +5,9 @@ export default class Pot {
     }
 
     addIngredient(ingredient) {
-        this.ingredients.push(ingredient);
-
-        const ingredientElement = this.createIngredientElement(JSON.parse(ingredient));
+        const ingredientElement = this.createIngredientElement(ingredient);
         const potElement = document.querySelector(`.pot[data-drag-drop-id="${this.id}"]`);
+
         potElement.appendChild(ingredientElement);
     }
 
@@ -35,20 +34,32 @@ export default class Pot {
             case 'korrel':
                 ingredientElement.style.borderRadius = '50%';
                 break;
+
             case 'groveKorrel':
                 ingredientElement.style.borderRadius = '30%';
                 break;
+
             case 'glad':
                 ingredientElement.style.borderRadius = '0%';
                 break;
+
             case 'slijmerig':
                 ingredientElement.style.borderRadius = '10%';
                 ingredientElement.style.opacity = '0.8';
                 break;
+
             default:
                 ingredientElement.style.borderRadius = '0%';
         }
 
         return ingredientElement;
+    }
+
+    canAddIngredient(ingredient) {
+        const ingredientsWithDifferentMixSpeed = this.ingredients.filter(otherIngredient => {
+            return otherIngredient.getMixSpeed() != ingredient.getMixSpeed();
+        });
+
+        return ingredientsWithDifferentMixSpeed.length === 0;
     }
 }
