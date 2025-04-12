@@ -28,7 +28,12 @@ export default class IngredientController {
         event.preventDefault();
 
         const formData = new FormData(this.form);
-        const ingredient = new Ingredient(formData.get('minMixSpeed'), formData.get('mixSpeed'), formData.get('color'), formData.get('structure'));
+        const ingredient = new Ingredient(
+            formData.get('minMixSpeed'),
+            formData.get('mixSpeed'),
+            formData.get('color'),
+            formData.get('structure')
+        );
 
         this.addIngredient(ingredient);
     }
