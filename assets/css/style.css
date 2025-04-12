@@ -19,3 +19,23 @@ section {
     width: 100px;
     height: 100px;
 }
+
+.pot {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 200px;
+    min-height: 300px;
+    padding: 5px;
+    gap: 5px;
+    background-color: lightgrey;
+}
+
+.hovering {
+    border: 2px dashed grey;
+}
+
+.width-fit {
+    width: fit-content;
+    display: inline-block;
+}
