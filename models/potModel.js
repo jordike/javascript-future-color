@@ -1,3 +1,5 @@
+import Ingredient from './ingredientModel.js';
+
 export default class Pot {
     constructor(id) {
         this.id = id;
@@ -8,6 +10,7 @@ export default class Pot {
         const ingredientElement = this.createIngredientElement(ingredient);
         const potElement = document.querySelector(`.pot[data-drag-drop-id="${this.id}"]`);
 
+        this.ingredients.push(new Ingredient(ingredient.minMixSpeed, ingredient.mixSpeed, ingredient.color, ingredient.structure));
         potElement.appendChild(ingredientElement);
     }
 
@@ -57,7 +60,7 @@ export default class Pot {
 
     canAddIngredient(ingredient) {
         const ingredientsWithDifferentMixSpeed = this.ingredients.filter(otherIngredient => {
-            return otherIngredient.getMixSpeed() != ingredient.getMixSpeed();
+            return otherIngredient.getMixSpeed() != ingredient.mixSpeed;
         });
 
         return ingredientsWithDifferentMixSpeed.length === 0;

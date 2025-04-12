@@ -39,7 +39,11 @@ export function registerDroppableElement(element, dropHandler, canDropCallback) 
         const dragData = event.dataTransfer.getData('application/json');
         const parsedDragData = JSON.parse(dragData);
 
-        if (canDropCallback && !canDropCallback(event, parsedDragData)) {
+        const { canDrop, message } = canDropCallback(event, parsedDragData) || { canDrop: false, message: '' };
+
+        if (!canDrop) {
+            alert(message || 'Kan hier niet worden neergezet!');
+
             return;
         }
 

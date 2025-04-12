@@ -50,6 +50,9 @@ export default class PotController {
             throw new Error(`Pot with id ${event.target.dataset.dragDropId} not found`);
         }
 
-        return pot.canAddIngredient(ingredient);
+        return {
+            canDrop: pot.canAddIngredient(ingredient),
+            message: 'Alleen ingrediënten met dezelfde mengsnelheid kunnen worden toegevoegd aan een pot'
+        };
     }
 }
