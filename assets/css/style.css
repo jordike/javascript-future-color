@@ -34,3 +34,8 @@ section {
 .hovering {
     border: 2px dashed grey;
 }
+
+.width-fit {
+    width: fit-content;
+    display: inline-block;
+}
