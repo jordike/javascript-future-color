@@ -1,25 +1,26 @@
 export default class ColorModel {
-
     static combineColors(colors) {
-      let totalR = 0, totalG = 0, totalB = 0;
-  
-      for (let hex of colors) {
-        //convert to hex for easier calculation
-        const { r, g, b } = this.hexToRgb(hex); 
-        totalR += r;
-        totalG += g;
-        totalB += b;
-      }
-  
-      const length = colors.length;
-      const avgR = Math.round(totalR / length);
-      const avgG = Math.round(totalG / length);
-      const avgB = Math.round(totalB / length);
+        let totalR = 0,
+            totalG = 0,
+            totalB = 0;
 
-      //revert to hex as thats the default value for the color
-      return this.rgbToHex(avgR, avgG, avgB); 
+        for (let hex of colors) {
+            // Convert to hex for easier calculation
+            const { r, g, b } = this.hexToRgb(hex);
+            totalR += r;
+            totalG += g;
+            totalB += b;
+        }
+
+        const length = colors.length;
+        const avgR = Math.round(totalR / length);
+        const avgG = Math.round(totalG / length);
+        const avgB = Math.round(totalB / length);
+
+        // Revert to hex as that's the default value for the color
+        return this.rgbToHex(avgR, avgG, avgB);
     }
-    
+
     static hexToRgb(hex) {
         hex = hex.replace('#', '');
         const r = parseInt(hex.substring(0, 2), 16);
@@ -27,9 +28,84 @@ export default class ColorModel {
         const b = parseInt(hex.substring(4, 6), 16);
         return { r, g, b };
     }
-          
+
     static rgbToHex(r, g, b) {
         return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()}`;
     }
-  }
 
+    static rgbToHsl(r, g, b) {
+        r /= 255;
+        g /= 255;
+        b /= 255;
+
+        const max = Math.max(r, g, b);
+        const min = Math.min(r, g, b);
+        let h,
+            s,
+            l = (max + min) / 2;
+
+        if (max === min) {
+            h = s = 0; // Achromatic
+        } else {
+            const d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+            switch (max) {
+                case r:
+                    h = (g - b) / d + (g < b ? 6 : 0);
+                    break;
+                case g:
+                    h = (b - r) / d + 2;
+                    break;
+                case b:
+                    h = (r - g) / d + 4;
+                    break;
+            }
+            h /= 6;
+        }
+
+        return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
+    }
+
+    static hslToRgb(h, s, l) {
+        h /= 360;
+        s /= 100;
+        l /= 100;
+
+        let r, g, b;
+
+        if (s === 0) {
+            r = g = b = l; // Achromatic
+        } else {
+            const hueToRgb = (p, q, t) => {
+                if (t < 0) t += 1;
+                if (t > 1) t -= 1;
+                if (t < 1 / 6) return p + (q - p) * 6 * t;
+                if (t < 1 / 2) return q;
+                if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+                return p;
+            };
+
+            const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+            const p = 2 * l - q;
+
+            r = hueToRgb(p, q, h + 1 / 3);
+            g = hueToRgb(p, q, h);
+            b = hueToRgb(p, q, h - 1 / 3);
+        }
+
+        return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) };
+    }
+
+    static getTriadicColors(rgb) {
+        const { h, s, l } = this.rgbToHsl(rgb.r, rgb.g, rgb.b);
+        const triadicColors = [];
+
+        for (let i = 0; i < 3; i++) {
+            const newH = (h + i * 120) % 360;
+            const { r, g, b } = this.hslToRgb(newH, s, l);
+            triadicColors.push(this.rgbToHex(r, g, b));
+        }
+
+        return triadicColors;
+    }
+}
