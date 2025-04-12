@@ -4,6 +4,7 @@ export default class Pot {
     constructor(id) {
         this.id = id;
         this.ingredients = [];
+        this.combinedColor = null;
     }
 
     addIngredient(ingredient) {
@@ -16,6 +17,10 @@ export default class Pot {
 
     getIngredients() {
         return this.ingredients;
+    }
+
+    getCombinedColor() {
+        return this.combinedColor;
     }
 
     createPotElement() {
