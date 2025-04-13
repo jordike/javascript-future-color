@@ -26,7 +26,7 @@ export default class Ingredient {
         const ingredientElement = document.createElement('div');
         ingredientElement.classList.add('ingredient', 'draggable');
         ingredientElement.draggable = true;
-        ingredientElement.style.backgroundColor = this.color;
+        ingredientElement.style.backgroundColor = `rgb(${this.color.r}, ${this.color.g}, ${this.color.b})`;
         ingredientElement.dataset.dragData = JSON.stringify({
             minMixSpeed: this.minMixSpeed,
             mixSpeed: this.mixSpeed,

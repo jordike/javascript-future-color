@@ -34,7 +34,7 @@ export default class Pot {
     createIngredientElement(ingredient) {
         const ingredientElement = document.createElement('div');
         ingredientElement.classList.add('ingredient');
-        ingredientElement.style.backgroundColor = ingredient.color;
+        ingredientElement.style.backgroundColor = `rgb(${ingredient.color.r}, ${ingredient.color.g}, ${ingredient.color.b})`;
         ingredientElement.style.width = '50px';
         ingredientElement.style.height = '50px';
 
