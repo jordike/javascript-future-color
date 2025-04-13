@@ -35,6 +35,7 @@ export default class Pot {
         potElement.dataset.dragData = JSON.stringify({
             type: 'pot',
             combinedColor: this.combinedColor
+            id: this.id,
         });
 
         return potElement;

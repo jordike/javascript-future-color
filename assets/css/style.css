@@ -40,6 +40,7 @@ section {
     display: inline-block;
 }
 
+
 .grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -57,6 +58,7 @@ section {
     background-color: #eeeeee;
     border: 2px dashed lightgrey;
 }
+
 
 .popup {
     position: fixed;
@@ -120,4 +122,44 @@ section {
     display: flex;
     justify-content: space-between;
     gap: 10px;
+
+.hall-square {
+    background-color: #e9ecef;
+    width: 600px;
+    height: 400px;
+    overflow-y: auto;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-content: flex-start;
+}
+
+.machine-form {
+    min-width: 200px;
+}
+
+.machine {
+    position: relative;
+    min-width: 200px;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.2s;
+}
+
+.machine.droppable.hovering {
+    background: #f0f8ff;
+    box-shadow: 0 0 0 2px #4a90e2;
+}
+
+.machine-header {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.remove-pot-btn {
+    margin-top: 0.5rem;
+
 }

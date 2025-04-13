@@ -4,6 +4,7 @@ import { registerDraggableElement, registerDroppableElement } from '../utils/dra
 export default class PotController {
     constructor() {
         this.pots = [];
+        this.mixedPots = [];
         this.potIdCounter = 0;
 
         this.form = document.querySelector('#pots-form');
@@ -24,6 +25,16 @@ export default class PotController {
 
         registerDroppableElement(potElement, this.onIngredientDrop.bind(this), this.canDropIngredient.bind(this));
         registerDraggableElement(potElement);
+    }
+
+    removePot(pot) {
+        this.pots = this.pots.filter(p => p.id !== pot.id);
+
+        // Remove DOM
+        const potElement = document.querySelector(`[data-drag-drop-id="${pot.id}"]`); // Keep this as is
+        if (potElement) {
+            potElement.remove();
+        }
     }
 
     onFormSubmit(event) {
@@ -58,5 +69,16 @@ export default class PotController {
                 message: 'Alleen ingrediënten met dezelfde mengsnelheid kunnen worden toegevoegd aan een pot'
             };
         }
+    }
+
+    renderMixedPots() {
+        const mixedPotsContainer = document.querySelector('#mixed-pots');
+        mixedPotsContainer.innerHTML = '';
+    
+        this.mixedPots.forEach(pot => {
+            const potElement = pot.createPotElement();
+            mixedPotsContainer.appendChild(potElement);
+            registerDraggableElement(potElement);
+        });
     }
 }

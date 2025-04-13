@@ -1,24 +1,21 @@
 export default class ColorModel {
     static combineColors(colors) {
-        let totalR = 0,
-            totalG = 0,
-            totalB = 0;
+        let totalR = 0;
+        let totalG = 0;
+        let totalB = 0;
 
-        for (let hex of colors) {
-            // Convert to hex for easier calculation
-            const { r, g, b } = this.hexToRgb(hex);
-            totalR += r;
-            totalG += g;
-            totalB += b;
-        }
+    for (let { r, g, b } of colors) {
+        totalR += r;
+        totalG += g;
+        totalB += b;
+    }
 
-        const length = colors.length;
-        const avgR = Math.round(totalR / length);
-        const avgG = Math.round(totalG / length);
-        const avgB = Math.round(totalB / length);
+    const length = colors.length;
+    const avgR = Math.round(totalR / length);
+    const avgG = Math.round(totalG / length);
+    const avgB = Math.round(totalB / length);
 
-        // Revert to hex as that's the default value for the color
-        return this.rgbToHex(avgR, avgG, avgB);
+    return { r: avgR, g: avgG, b: avgB };
     }
 
     static hexToRgb(hex) {
@@ -27,10 +24,6 @@ export default class ColorModel {
         const g = parseInt(hex.substring(2, 4), 16);
         const b = parseInt(hex.substring(4, 6), 16);
         return { r, g, b };
-    }
-
-    static rgbToHex(r, g, b) {
-        return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()}`;
     }
 
     static rgbToHsl(r, g, b) {
