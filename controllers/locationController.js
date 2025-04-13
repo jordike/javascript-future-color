@@ -38,7 +38,6 @@ export default class LocationController {
         })
         .catch(error => {
             console.error('Error loading cities:', error);
-            alert('Could not load city list.');
         });
     }
 
