@@ -47,7 +47,7 @@ export default class HallController {
         });
     }
 
-    onPotDropOnMachine(machineId, potData) {
+    async onPotDropOnMachine(machineId, potData) {
         if (potData.type !== 'pot') return;
 
         const machine = this.currentHall.getMachines().find(m => m.id === machineId);
@@ -57,15 +57,25 @@ export default class HallController {
             return;
         }
 
-        const result = this.machineController.addPot(machine, pot);
-        if (result) {
-            this.potController.removePot(pot);
-        }
+        //weatherCheck to allow machine to start
+        const weatherData = await WeatherController.getWeatherData();
+        if (weatherData.temp >= 35) {
+            const isMachineRunning = this.currentHall.hasMachineRunning();
+            if (isMachineRunning) {
+                return;  
+            }
+        
+            //Will check if pot is added, if pot cannot be added it won't start the machine or remove pot from potController
+            const result = this.machineController.addPot(machine, pot);
+            if (result) {
+                this.potController.removePot(pot);
+                this.machineController.startMachine(machine, () => {
+                    this.onMachineFinished(machine);
+                });
+            }
 
-        this.machineController.startMachine(machine, () => {
-            this.onMachineFinished(machine);
-        });
-        this.renderHall();
+            this.renderHall();
+        }
     }
 
     canDropPotOnMachine(event, potData) {
@@ -78,7 +88,7 @@ export default class HallController {
             return { canDrop: false, message: 'Pot not found' };
         }
 
-        //Need to use event as machineID is undifined at this stage
+        //Need to use event as machineID is undefined at this stage
         const machineElement = event.target.closest('.machine');
         const machineHoverId = machineElement.dataset.dragDropId;
         const machine = this.currentHall.getMachines().find(m => m.id === machineHoverId);
