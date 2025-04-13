@@ -28,9 +28,6 @@ export default class Pot {
         potElement.draggable = true;
         potElement.className = 'pot droppable';
         potElement.dataset.dragDropId = this.id;
-        potElement.dataset.dragData = JSON.stringify({
-            type: 'pot'
-        });
 
         return potElement;
     }

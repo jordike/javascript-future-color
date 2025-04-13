@@ -64,6 +64,6 @@ export function registerDroppableElement(element, dropHandler, canDropCallback) 
 
         const dropTargetId = event.target.dataset.dragDropId;
 
-        dropHandler(dropTargetId, parsedDragData);
+        dropHandler(dropTargetId, parsedDragData, event.target);
     });
 }

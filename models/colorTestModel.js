@@ -43,7 +43,7 @@ export default class ColorTestModel {
         for (let x = 0; x < this.gridSize; x++) {
             for (let y = 0; y < this.gridSize; y++) {
                 const cellElement = document.createElement('div');
-                cellElement.classList.add('cell', 'empty-cell');
+                cellElement.classList.add('cell', 'empty-cell', 'droppable');
                 cellElement.dataset.x = x;
                 cellElement.dataset.y = y;
 
