@@ -8,7 +8,7 @@ export function registerDraggableElement(element) {
 
 export function registerDroppableElement(element, dropHandler, canDropCallback) {
     element.addEventListener('dragenter', event => {
-        if (!event.target.classList.contains('droppable')) {
+        if (!event.target.classList?.contains('droppable')) {
             return;
         }
 
@@ -23,11 +23,19 @@ export function registerDroppableElement(element, dropHandler, canDropCallback) 
     });
 
     element.addEventListener('dragleave', event => {
+        if (!event.target.classList?.contains('droppable')) {
+            return;
+        }
+
         event.preventDefault();
         event.target.classList.remove('hovering');
     });
 
     element.addEventListener('dragover', event => {
+        if (!event.target.classList?.contains('droppable')) {
+            return;
+        }
+
         const { canDrop } = canDropCallback(event, dragData) || { canDrop: false };
 
         if (!canDrop) {
@@ -40,7 +48,7 @@ export function registerDroppableElement(element, dropHandler, canDropCallback) 
     });
 
     element.addEventListener('drop', event => {
-        if (!event.target.classList.contains('droppable')) {
+        if (!event.target.classList?.contains('droppable')) {
             return;
         }
 
