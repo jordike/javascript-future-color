@@ -25,7 +25,9 @@ export default class MachineModel {
         const removedPot = this.pot;
         this.pot = null;
         this.status = "idle"; //Reset status when pot is removed
+
         return removedPot;
+
     }
     
     startMix(colorCallback, weatherData, doneCallback) {

@@ -4,7 +4,11 @@ export default class Pot {
     constructor(id) {
         this.id = id;
         this.ingredients = [];
-        this.combinedColor = null;
+        this.combinedColor = {
+            r: 255,
+            g: 165,
+            b: 0
+        };
     }
 
     addIngredient(ingredient) {
@@ -30,8 +34,8 @@ export default class Pot {
         potElement.dataset.dragDropId = this.id;
         potElement.dataset.dragData = JSON.stringify({
             type: 'pot',
+            combinedColor: this.combinedColor
             id: this.id,
-            combinedColor: '#ff0000'
         });
 
         return potElement;
