@@ -10,6 +10,7 @@ export default class ColorTestController {
         this.gridContainer = document.querySelector('#test-grid');
 
         this.form.addEventListener('submit', this.onFormSubmit.bind(this));
+        document.getElementById('close-popup').addEventListener('click', this.hidePopup.bind(this));
     }
 
     createGrid() {
@@ -66,6 +67,37 @@ export default class ColorTestController {
 
         const triadicColors = ColorModel.getTriadicColors(color);
 
-        console.log('color', color, 'triadicColors', triadicColors);
+        this.showPopup([color, ...triadicColors]);
+    }
+
+    showPopup(colors) {
+        const popup = document.getElementById('triadic-colors-popup');
+        const colorsContainer = document.getElementById('triadic-colors-container');
+
+        colorsContainer.innerHTML = '';
+        colors.forEach(color => {
+            const colorDiv = document.createElement('div');
+            colorDiv.classList.add('color-box');
+            colorDiv.style.backgroundColor = `rgb(${color.r}, ${color.g}, ${color.b})`;
+            colorsContainer.appendChild(colorDiv);
+
+            const rgbLabel = document.createElement('p');
+            rgbLabel.classList.add('color-label');
+            rgbLabel.textContent = `RGB: (${color.r}, ${color.g}, ${color.b})`;
+            colorDiv.appendChild(rgbLabel);
+
+            const hlsLabel = document.createElement('p');
+            hlsLabel.classList.add('color-label');
+            const hsl = ColorModel.rgbToHsl(color.r, color.g, color.b);
+            hlsLabel.textContent = `HSL: (${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+            colorDiv.appendChild(hlsLabel);
+        });
+
+        popup.classList.remove('hidden-popup');
+    }
+
+    hidePopup() {
+        const popup = document.getElementById('triadic-colors-popup');
+        popup.classList.add('hidden-popup');
     }
 }
