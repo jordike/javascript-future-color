@@ -60,7 +60,7 @@ export default class MachineModel {
             this.status = 'finished';
             this.pot.setCombinedColor(combinedColor);
             if (doneCallback) doneCallback();
-        }, this.mixTime * 1000);
+        }, this.mixTime);
 
         return `Mixing started`;
     }
@@ -70,13 +70,18 @@ export default class MachineModel {
         machineElement.classList.add('machine', 'droppable');
         machineElement.dataset.dragDropId = this.id;
         machineElement.innerHTML = `
-            <div class="machine-header pe-none">
-                Machine ID: ${this.id} (Status: ${this.status})
-            </div>
-            <div class="machine-body pe-none">
-                ${this.pot ? 'Pot added' : 'Empty - drag pot here'}
-            </div>
-        `;
+                <div class="machine-header pe-none">
+                    Machine ID: ${this.id})
+                </div>
+                <div class="machine-body pe-none">
+                    ${this.pot ? `
+                        <div class="spinner-container">
+                            <div class="spinner"></div>
+                            <div class="spinner-label">Mixing...</div>
+                        </div>
+                    ` : 'Empty - drag pot here'}
+                </div>
+            `;
         return machineElement;
     }
 }
