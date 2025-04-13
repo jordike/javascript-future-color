@@ -28,7 +28,7 @@ section {
     min-height: 300px;
     padding: 5px;
     gap: 5px;
-    background-color: lightgrey;
+    background-color: #eeeeee;
 }
 
 .hovering {
