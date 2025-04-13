@@ -2,13 +2,13 @@ let dragData = null;
 
 export function registerDraggableElement(element) {
     element.addEventListener('dragstart', event => {
-        dragData = JSON.parse(event.target.dataset.dragData);
+        dragData = JSON.parse(event.currentTarget.dataset.dragData);
     });
 }
 
 export function registerDroppableElement(element, dropHandler, canDropCallback) {
     element.addEventListener('dragenter', event => {
-        if (!event.target.classList?.contains('droppable')) {
+        if (!event.currentTarget.classList?.contains('droppable')) {
             return;
         }
 
@@ -19,40 +19,38 @@ export function registerDroppableElement(element, dropHandler, canDropCallback) 
         }
 
         event.preventDefault();
-        event.target.classList.add('hovering');
+        event.currentTarget.classList.add('hovering');
     });
 
     element.addEventListener('dragleave', event => {
-        if (!event.target.classList?.contains('droppable')) {
+        if (!event.currentTarget.classList?.contains('droppable')) {
             return;
         }
 
         event.preventDefault();
-        event.target.classList.remove('hovering');
+        event.currentTarget.classList.remove('hovering');
     });
 
     element.addEventListener('dragover', event => {
-        if (!event.target.classList?.contains('droppable')) {
+        if (!event.currentTarget.classList?.contains('droppable')) {
             return;
         }
 
-        const { canDrop } = canDropCallback(event, dragData) || { canDrop: false };
+        const { canDrop, message } = canDropCallback(event, dragData) || { canDrop: false };
 
         if (!canDrop) {
             return;
         }
 
-        if (event.target.classList.contains('droppable')) {
-            event.preventDefault();
-        }
+        event.preventDefault();
     });
 
     element.addEventListener('drop', event => {
-        if (!event.target.classList?.contains('droppable')) {
+        if (!event.currentTarget.classList?.contains('droppable')) {
             return;
         }
 
-        const { canDrop, message } = canDropCallback(event, dragData) || { canDrop: false, message: '' };
+        const { canDrop, message } = canDropCallback(event, dragData) || { canDrop: false, message: null };
 
         if (!canDrop) {
             if (message) alert(message);
@@ -61,10 +59,10 @@ export function registerDroppableElement(element, dropHandler, canDropCallback) 
         }
 
         event.preventDefault();
-        event.target.classList.remove('hovering');
+        event.currentTarget.classList.remove('hovering');
 
-        const dropTargetId = event.target.dataset.dragDropId;
+        const dropTargetId = event.currentTarget.dataset.dragDropId;
 
-        dropHandler(dropTargetId, dragData, event.target);
+        dropHandler(dropTargetId, dragData, event.currentTarget);
     });
 }
