@@ -25,8 +25,12 @@ export default class Pot {
 
     createPotElement() {
         const potElement = document.createElement('div');
+        potElement.draggable = true;
         potElement.className = 'pot droppable';
         potElement.dataset.dragDropId = this.id;
+        potElement.dataset.dragData = JSON.stringify({
+            type: 'pot'
+        });
 
         return potElement;
     }

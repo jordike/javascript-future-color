@@ -31,7 +31,8 @@ export default class Ingredient {
             minMixSpeed: this.minMixSpeed,
             mixSpeed: this.mixSpeed,
             color: this.color,
-            structure: this.structure
+            structure: this.structure,
+            type: 'ingredient'
         });
 
         switch (this.structure) {

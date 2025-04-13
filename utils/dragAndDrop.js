@@ -12,20 +12,32 @@ export function registerDroppableElement(element, dropHandler, canDropCallback) 
             return;
         }
 
+        const dragData = event.dataTransfer.getData('application/json');
+        const parsedDragData = JSON.parse(dragData);
+        const { canDrop } = canDropCallback(event, parsedDragData) || { canDrop: false };
+
+        if (!canDrop) {
+            return;
+        }
+
         event.preventDefault();
         event.target.classList.add('hovering');
     });
 
     element.addEventListener('dragleave', event => {
-        if (!event.target.classList.contains('droppable')) {
-            return;
-        }
-
         event.preventDefault();
         event.target.classList.remove('hovering');
     });
 
     element.addEventListener('dragover', event => {
+        const dragData = event.dataTransfer.getData('application/json');
+        const parsedDragData = JSON.parse(dragData);
+        const { canDrop } = canDropCallback(event, parsedDragData) || { canDrop: false };
+
+        if (!canDrop) {
+            return;
+        }
+
         if (event.target.classList.contains('droppable')) {
             event.preventDefault();
         }
@@ -42,7 +54,7 @@ export function registerDroppableElement(element, dropHandler, canDropCallback) 
         const { canDrop, message } = canDropCallback(event, parsedDragData) || { canDrop: false, message: '' };
 
         if (!canDrop) {
-            alert(message || 'Kan hier niet worden neergezet!');
+            if (message) alert(message);
 
             return;
         }

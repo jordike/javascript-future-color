@@ -1,5 +1,5 @@
 import Pot from '../models/potModel.js';
-import { registerDroppableElement } from '../utils/dragAndDrop.js';
+import { registerDraggableElement, registerDroppableElement } from '../utils/dragAndDrop.js';
 
 export default class PotController {
     constructor() {
@@ -23,6 +23,7 @@ export default class PotController {
         this.potsContainer.appendChild(potElement);
 
         registerDroppableElement(potElement, this.onIngredientDrop.bind(this), this.canDropIngredient.bind(this));
+        registerDraggableElement(potElement);
     }
 
     onFormSubmit(event) {
@@ -43,7 +44,14 @@ export default class PotController {
         pot.addIngredient(ingredient);
     }
 
-    canDropIngredient(event, ingredient) {
+    canDropIngredient(event, dragData) {
+        if (dragData.type !== 'ingredient') {
+            return {
+                canDrop: false,
+                message: null
+            };
+        }
+
         const pot = this.pots.find(pot => pot.id == event.target.dataset.dragDropId);
 
         if (!pot) {
@@ -51,7 +59,7 @@ export default class PotController {
         }
 
         return {
-            canDrop: pot.canAddIngredient(ingredient),
+            canDrop: pot.canAddIngredient(dragData),
             message: 'Alleen ingrediënten met dezelfde mengsnelheid kunnen worden toegevoegd aan een pot'
         };
     }
