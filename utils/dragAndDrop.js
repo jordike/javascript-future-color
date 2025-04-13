@@ -1,8 +1,8 @@
+let dragData = null;
+
 export function registerDraggableElement(element) {
     element.addEventListener('dragstart', event => {
-        const dragData = event.target.dataset.dragData;
-
-        event.dataTransfer.setData('application/json', dragData);
+        dragData = JSON.parse(event.target.dataset.dragData);
     });
 }
 
@@ -12,9 +12,7 @@ export function registerDroppableElement(element, dropHandler, canDropCallback) 
             return;
         }
 
-        const dragData = event.dataTransfer.getData('application/json');
-        const parsedDragData = JSON.parse(dragData);
-        const { canDrop } = canDropCallback(event, parsedDragData) || { canDrop: false };
+        const { canDrop } = canDropCallback(event, dragData) || { canDrop: false };
 
         if (!canDrop) {
             return;
@@ -30,9 +28,7 @@ export function registerDroppableElement(element, dropHandler, canDropCallback) 
     });
 
     element.addEventListener('dragover', event => {
-        const dragData = event.dataTransfer.getData('application/json');
-        const parsedDragData = JSON.parse(dragData);
-        const { canDrop } = canDropCallback(event, parsedDragData) || { canDrop: false };
+        const { canDrop } = canDropCallback(event, dragData) || { canDrop: false };
 
         if (!canDrop) {
             return;
@@ -48,10 +44,7 @@ export function registerDroppableElement(element, dropHandler, canDropCallback) 
             return;
         }
 
-        const dragData = event.dataTransfer.getData('application/json');
-        const parsedDragData = JSON.parse(dragData);
-
-        const { canDrop, message } = canDropCallback(event, parsedDragData) || { canDrop: false, message: '' };
+        const { canDrop, message } = canDropCallback(event, dragData) || { canDrop: false, message: '' };
 
         if (!canDrop) {
             if (message) alert(message);
@@ -64,6 +57,6 @@ export function registerDroppableElement(element, dropHandler, canDropCallback) 
 
         const dropTargetId = event.target.dataset.dragDropId;
 
-        dropHandler(dropTargetId, parsedDragData, event.target);
+        dropHandler(dropTargetId, dragData, event.target);
     });
 }
