@@ -4,18 +4,18 @@ export default class ColorModel {
         let totalG = 0;
         let totalB = 0;
 
-    for (let { r, g, b } of colors) {
-        totalR += r;
-        totalG += g;
-        totalB += b;
-    }
+        for (let { r, g, b } of colors) {
+            totalR += r;
+            totalG += g;
+            totalB += b;
+        }
 
-    const length = colors.length;
-    const avgR = Math.round(totalR / length);
-    const avgG = Math.round(totalG / length);
-    const avgB = Math.round(totalB / length);
+        const length = colors.length;
+        const avgR = Math.round(totalR / length);
+        const avgG = Math.round(totalG / length);
+        const avgB = Math.round(totalB / length);
 
-    return { r: avgR, g: avgG, b: avgB };
+        return { r: avgR, g: avgG, b: avgB };
     }
 
     static hexToRgb(hex) {
