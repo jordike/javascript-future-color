@@ -36,7 +36,7 @@ export function registerDroppableElement(element, dropHandler, canDropCallback) 
             return;
         }
 
-        const { canDrop, message } = canDropCallback(event, dragData) || { canDrop: false };
+        const { canDrop } = canDropCallback(event, dragData) || { canDrop: false };
 
         if (!canDrop) {
             return;
