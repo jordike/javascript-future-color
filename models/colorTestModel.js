@@ -25,7 +25,7 @@ export default class ColorTestModel {
         const cell = this.gridCells[x][y];
         cell.color = color;
         cell.element.classList.remove('empty-cell');
-        cell.element.style.backgroundColor = color;
+        cell.element.style.backgroundColor = `rgb(${color.r}, ${color.g}, ${color.b})`;
     }
 
     getColor(x, y) {
@@ -48,11 +48,6 @@ export default class ColorTestModel {
                 cellElement.dataset.y = y;
 
                 this.gridCells[x][y].element = cellElement;
-
-                cellElement.addEventListener('click', () => {
-                    const color = this.getColor(x, y);
-                    console.log(`Cell (${x}, ${y}) color: ${color}`);
-                });
 
                 gridElement.appendChild(cellElement);
             }

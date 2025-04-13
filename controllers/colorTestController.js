@@ -1,4 +1,5 @@
 import ColorTestModel from '../models/colorTestModel.js';
+import ColorModel from '../models/colorModel.js';
 import { registerDroppableElement } from '../utils/dragAndDrop.js';
 
 export default class ColorTestController {
@@ -20,6 +21,7 @@ export default class ColorTestController {
         this.gridContainer.appendChild(gridElement);
 
         registerDroppableElement(gridElement, this.onPotDrop.bind(this), this.canDropPot.bind(this));
+        this.gridContainer.addEventListener('click', this.onCellClicked.bind(this));
     }
 
     onFormSubmit(event) {
@@ -44,5 +46,26 @@ export default class ColorTestController {
             canDrop: true,
             message: null
         };
+    }
+
+    onCellClicked(event) {
+        const cell = event.target.closest('.cell');
+
+        if (!cell) {
+            return;
+        }
+
+        const x = cell.dataset.x;
+        const y = cell.dataset.y;
+
+        const color = this.gridModel.getColor(x, y);
+
+        if (!color) {
+            return;
+        }
+
+        const triadicColors = ColorModel.getTriadicColors(color);
+
+        console.log('color', color, 'triadicColors', triadicColors);
     }
 }

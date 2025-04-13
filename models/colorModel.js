@@ -97,15 +97,18 @@ export default class ColorModel {
     }
 
     static getTriadicColors(rgb) {
-        const { h, s, l } = this.rgbToHsl(rgb.r, rgb.g, rgb.b);
-        const triadicColors = [];
+        const { r, g, b } = rgb;
+        const hsl = this.rgbToHsl(r, g, b);
 
-        for (let i = 0; i < 3; i++) {
-            const newH = (h + i * 120) % 360;
-            const { r, g, b } = this.hslToRgb(newH, s, l);
-            triadicColors.push(this.rgbToHex(r, g, b));
-        }
+        const triadic1Hue = (hsl.h + 120) % 360;
+        const triadic2Hue = (hsl.h + 240) % 360;
 
-        return triadicColors;
+        const triadic1 = this.hslToRgb(triadic1Hue, hsl.s, hsl.l);
+        const triadic2 = this.hslToRgb(triadic2Hue, hsl.s, hsl.l);
+
+        return [
+            { r: triadic1.r, g: triadic1.g, b: triadic1.b },
+            { r: triadic2.r, g: triadic2.g, b: triadic2.b }
+        ];
     }
 }
