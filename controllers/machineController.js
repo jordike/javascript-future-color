@@ -1,21 +1,27 @@
 import WeatherController from '../controllers/weatherController.js';
+import MachineModel from '../models/machineModel.js';
+import ColorController from './colorController.js';
 
 export default class MachineController {
 
-    startMachine() {
+    startMachine(machine, onFinished) {
         const weatherData = WeatherController.getWeatherData()
-        this.machineModel.startMix((ingredientColors) => {
-            const combinedColor = this.colorController.combineColors(ingredientColors);
+        machine.startMix((ingredientColors) => {
+            const combinedColor = ColorController.combineColors(ingredientColors);
             return combinedColor;
-        }, weatherData);
+        }, weatherData,onFinished);
     }
 
-    addPot(pot) {
-        return this.machineModel.addPot(pot);
+    addPot(machine, pot) {
+        return machine.addPot(pot);
     }
 
-    removePot() {
-        return this.machineModel.removePot();
+    removePot(machine) {
+        return machine.removePot();
+    }
+
+    createMachine(mixSpeed, mixTime) {
+        return new MachineModel(mixSpeed, mixTime);
     }
 }
 

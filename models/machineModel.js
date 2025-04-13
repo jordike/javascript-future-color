@@ -5,34 +5,35 @@ export default class MachineModel {
       this.machineMixTime = machineMixTime; //Minimale mixtijd van de machine
       this.mixTime = 0; //Uiteindelijke mixtijd
       this.status = "idle"; //idle , mixing, finished 
+      this.id = `machine-${Date.now()}`; //Unique ID for the machine
     }
   
+    getMixSpeed(){
+        return Number(this.mixSpeed);
+    }
+
     addPot(pot) {
         if (this.pot) {
-            return "Machine is full, finish mixing before adding a new one.";
+            return false;
         }
         this.pot = pot;
-        return "Pot added successfully.";
+        return true;
     }
 
     //returns the removed pot to be used elsewhere.
     removePot(pot) {
         const removedPot = this.pot;
         this.pot = null;
-        this.status = idle; //Reset status when pot is removed
+        this.status = "idle"; //Reset status when pot is removed
         return removedPot;
     }
     
-    startMix(colorCallback, weatherData) {
+    startMix(colorCallback, weatherData, doneCallback) {
         if (!this.pot) {
             return "No pot added to the machine.";
         }
         
-        /*
-        Added check to compare longest mix time between machine setting and ingredient.
-        because appearently the machine itself has a mixtime aswell according to the assignment: 
-        "Je kan meerdere mengmachines aanmaken met verschillende instellingen (mengsnelheid/mengtijd)"
-        */
+        //gets longest mixtime of ingredient/machine
         let longestMixTime = this.machineMixTime;
         for (let ingredient of this.pot.ingredients) {
             longestMixTime = Math.max(longestMixTime, ingredient.getMinMixSpeed());
@@ -56,9 +57,26 @@ export default class MachineModel {
         this.status = "mixing";
         setTimeout(() => {
             this.status = "finished";
-            this.pot.color = combinedColor;
+            this.pot.combinedColor = combinedColor;
+            if (doneCallback) doneCallback();
         }, this.mixTime * 1000);
 
         return `Mixing started`;
     }
+
+    getMachineElement() {
+        const machineElement = document.createElement('div');
+        machineElement.classList.add('machine', 'droppable');
+        machineElement.dataset.dragDropId = this.id;
+        machineElement.innerHTML = `
+            <div class="machine-header">
+                Machine ID: ${this.id} (Status: ${this.status})
+            </div>
+            <div class="machine-body">
+                ${this.pot ? 'Pot added' : 'Empty - drag pot here'}
+            </div>
+        `;
+        return machineElement;
+    }
+
   }

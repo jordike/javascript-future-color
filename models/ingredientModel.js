@@ -1,6 +1,6 @@
 export default class Ingredient {
     constructor(minMixSpeed, mixSpeed, color, structure) {
-        this.minMixSpeed = minMixSpeed;
+        this.minMixSpeed = minMixSpeed; //mixTime
         this.mixSpeed = mixSpeed;
         this.color = color;
         this.structure = structure;
@@ -11,7 +11,7 @@ export default class Ingredient {
     }
 
     getMixSpeed() {
-        return this.mixSpeed;
+        return Number(this.mixSpeed);
     }
 
     getColor() {
