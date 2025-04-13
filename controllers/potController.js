@@ -37,11 +37,9 @@ export default class PotController {
     onIngredientDrop(potId, ingredient) {
         const pot = this.pots.find(pot => pot.id == potId);
 
-        if (!pot) {
-            throw new Error(`Pot with id ${potId} not found`);
+        if (pot) {
+            pot.addIngredient(ingredient);
         }
-
-        pot.addIngredient(ingredient);
     }
 
     canDropIngredient(event, dragData) {
@@ -54,13 +52,11 @@ export default class PotController {
 
         const pot = this.pots.find(pot => pot.id == event.target.dataset.dragDropId);
 
-        if (!pot) {
-            throw new Error(`Pot with id ${event.target.dataset.dragDropId} not found`);
+        if (pot) {
+            return {
+                canDrop: pot.canAddIngredient(dragData),
+                message: 'Alleen ingrediënten met dezelfde mengsnelheid kunnen worden toegevoegd aan een pot'
+            };
         }
-
-        return {
-            canDrop: pot.canAddIngredient(dragData),
-            message: 'Alleen ingrediënten met dezelfde mengsnelheid kunnen worden toegevoegd aan een pot'
-        };
     }
 }
