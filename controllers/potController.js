@@ -74,7 +74,7 @@ export default class PotController {
     renderMixedPots() {
         const mixedPotsContainer = document.querySelector('#mixed-pots');
         mixedPotsContainer.innerHTML = '';
-    
+
         this.mixedPots.forEach(pot => {
             const potElement = pot.createPotElement();
             mixedPotsContainer.appendChild(potElement);
