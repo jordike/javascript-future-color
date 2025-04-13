@@ -5,8 +5,8 @@ export default class Pot {
         this.id = id;
         this.ingredients = [];
         this.combinedColor = {
-            r: 255,
-            g: 165,
+            r: 0,
+            g: 0,
             b: 0
         };
     }
@@ -27,6 +27,15 @@ export default class Pot {
         return this.combinedColor;
     }
 
+    setCombinedColor(color) {
+        this.combinedColor = color;
+        this.element.dataset.dragData = JSON.stringify({
+            type: 'pot',
+            combinedColor: this.combinedColor,
+            id: this.id
+        });
+    }
+
     createPotElement() {
         const potElement = document.createElement('div');
         potElement.draggable = true;
@@ -34,9 +43,11 @@ export default class Pot {
         potElement.dataset.dragDropId = this.id;
         potElement.dataset.dragData = JSON.stringify({
             type: 'pot',
-            combinedColor: this.combinedColor
-            id: this.id,
+            combinedColor: this.combinedColor,
+            id: this.id
         });
+
+        this.element = potElement;
 
         return potElement;
     }

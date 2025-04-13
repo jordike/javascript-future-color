@@ -21,7 +21,9 @@ export default class ColorTestController {
         this.gridContainer.innerHTML = '';
         this.gridContainer.appendChild(gridElement);
 
-        registerDroppableElement(gridElement, this.onPotDrop.bind(this), this.canDropPot.bind(this));
+        gridElement.querySelectorAll('.cell').forEach(cell => {
+            registerDroppableElement(cell, this.onPotDrop.bind(this), this.canDropPot.bind(this));
+        });
         this.gridContainer.addEventListener('click', this.onCellClicked.bind(this));
     }
 

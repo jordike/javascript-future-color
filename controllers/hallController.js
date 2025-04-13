@@ -2,14 +2,13 @@ import HallModel from '../models/hallModel.js';
 import MachineController from './machineController.js';
 import { registerDroppableElement } from '../utils/dragAndDrop.js';
 
-
 export default class HallController {
     constructor(potController) {
         this.halls = {
-            "hall-1": new HallModel("hall-1"),
-            "hall-2": new HallModel("hall-2"),
+            'hall-1': new HallModel('hall-1'),
+            'hall-2': new HallModel('hall-2')
         };
-        this.currentHall = this.halls["hall-1"];
+        this.currentHall = this.halls['hall-1'];
         this.machineController = new MachineController();
         this.potController = potController;
         this.setupUI();
@@ -19,7 +18,7 @@ export default class HallController {
     switchHall(name) {
         this.currentHall = this.halls[name];
         this.renderHall();
-    } 
+    }
 
     hasMachineRunning() {
         return this.currentHall.hasMachineRunning();
@@ -35,7 +34,7 @@ export default class HallController {
         const hallContainer = document.querySelector('#hallContainer');
         hallContainer.innerHTML = '';
 
-        this.currentHall.getMachines().forEach((machine) => {
+        this.currentHall.getMachines().forEach(machine => {
             const machineElement = machine.getMachineElement();
             hallContainer.appendChild(machineElement);
 
@@ -67,14 +66,13 @@ export default class HallController {
             this.onMachineFinished(machine);
         });
         this.renderHall();
-
     }
 
     canDropPotOnMachine(event, potData) {
         if (potData.type !== 'pot') {
             return { canDrop: false, message: 'Only pots can be added to machines' };
         }
-        
+
         const pot = this.potController.pots.find(p => p.id == potData.id);
         if (!pot) {
             return { canDrop: false, message: 'Pot not found' };
@@ -88,13 +86,16 @@ export default class HallController {
             return { canDrop: false, message: 'Machine not found' };
         }
 
-        const ingredientMixSpeed =  Number(pot.getIngredients()[0]?.getMixSpeed());
+        const ingredientMixSpeed = Number(pot.getIngredients()[0]?.getMixSpeed());
         const machineMixSpeed = machine.getMixSpeed();
 
         if (ingredientMixSpeed !== machineMixSpeed) {
-            return { canDrop: false, message: `The machine's mix speed (${machineMixSpeed}) does not match the ingredient's mix speed (${ingredientMixSpeed})` };
+            return {
+                canDrop: false,
+                message: `The machine's mix speed (${machineMixSpeed}) does not match the ingredient's mix speed (${ingredientMixSpeed})`
+            };
         }
-    
+
         return { canDrop: true, message: null };
     }
 
@@ -102,7 +103,7 @@ export default class HallController {
         // Hall switcher
         const switcher = document.getElementById('hallSwitcher');
         if (switcher) {
-            switcher.addEventListener('change', (e) => {
+            switcher.addEventListener('change', e => {
                 this.switchHall(e.target.value);
             });
         }
@@ -120,14 +121,12 @@ export default class HallController {
 
     onMachineFinished(machine) {
         const removedPot = this.machineController.removePot(machine);
-    
+
         if (removedPot) {
             this.potController.mixedPots.push(removedPot);
             this.potController.renderMixedPots();
-            console.log(removedPot);
         }
-    
-        this.renderHall(); 
-    }
 
+        this.renderHall();
+    }
 }
