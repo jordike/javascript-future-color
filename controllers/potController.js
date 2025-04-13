@@ -74,9 +74,11 @@ export default class PotController {
     renderMixedPots() {
         const mixedPotsContainer = document.querySelector('#mixed-pots');
         mixedPotsContainer.innerHTML = '';
-    
+
         this.mixedPots.forEach(pot => {
             const potElement = pot.createPotElement();
+            const color = pot.getCombinedColor();
+            potElement.style.backgroundColor = `rgb(${color.r}, ${color.g}, ${color.b})`;
             mixedPotsContainer.appendChild(potElement);
             registerDraggableElement(potElement);
         });
