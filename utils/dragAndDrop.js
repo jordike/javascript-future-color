@@ -1,8 +1,8 @@
+let dragData = null;
+
 export function registerDraggableElement(element) {
     element.addEventListener('dragstart', event => {
-        const dragData = event.target.dataset.dragData;
-
-        event.dataTransfer.setData('application/json', dragData);
+        dragData = JSON.parse(event.target.dataset.dragData);
     });
 }
 
@@ -12,20 +12,28 @@ export function registerDroppableElement(element, dropHandler, canDropCallback) 
             return;
         }
 
+        const { canDrop } = canDropCallback(event, dragData) || { canDrop: false };
+
+        if (!canDrop) {
+            return;
+        }
+
         event.preventDefault();
         event.target.classList.add('hovering');
     });
 
     element.addEventListener('dragleave', event => {
-        if (!event.target.classList.contains('droppable')) {
-            return;
-        }
-
         event.preventDefault();
         event.target.classList.remove('hovering');
     });
 
     element.addEventListener('dragover', event => {
+        const { canDrop } = canDropCallback(event, dragData) || { canDrop: false };
+
+        if (!canDrop) {
+            return;
+        }
+
         if (event.target.classList.contains('droppable')) {
             event.preventDefault();
         }
@@ -36,13 +44,10 @@ export function registerDroppableElement(element, dropHandler, canDropCallback) 
             return;
         }
 
-        const dragData = event.dataTransfer.getData('application/json');
-        const parsedDragData = JSON.parse(dragData);
-
-        const { canDrop, message } = canDropCallback(event, parsedDragData) || { canDrop: false, message: '' };
+        const { canDrop, message } = canDropCallback(event, dragData) || { canDrop: false, message: '' };
 
         if (!canDrop) {
-            alert(message || 'Kan hier niet worden neergezet!');
+            if (message) alert(message);
 
             return;
         }
@@ -52,6 +57,6 @@ export function registerDroppableElement(element, dropHandler, canDropCallback) 
 
         const dropTargetId = event.target.dataset.dragDropId;
 
-        dropHandler(dropTargetId, parsedDragData);
+        dropHandler(dropTargetId, dragData, event.target);
     });
 }

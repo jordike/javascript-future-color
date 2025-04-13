@@ -28,7 +28,7 @@ section {
     min-height: 300px;
     padding: 5px;
     gap: 5px;
-    background-color: lightgrey;
+    background-color: #eeeeee;
 }
 
 .hovering {
@@ -38,4 +38,128 @@ section {
 .width-fit {
     width: fit-content;
     display: inline-block;
+}
+
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    gap: 10px;
+    width: fit-content;
+}
+
+.cell {
+    width: 50px;
+    height: 50px;
+}
+
+.empty-cell {
+    background-color: #eeeeee;
+    border: 2px dashed lightgrey;
+}
+
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #cccccc;
+    padding: 0 10px 10px 10px;
+}
+
+.popup-body {
+    margin-top: 20px;
+}
+
+.popup-header h2 {
+    margin: 0;
+}
+
+.hidden-popup {
+    display: none;
+}
+
+.color-box {
+    width: 200px;
+    height: 100px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+.color-label {
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 1px 1px 2px black;
+    margin: 0;
+}
+
+#triadic-colors-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+
+.hall-square {
+    background-color: #e9ecef;
+    width: 600px;
+    height: 400px;
+    overflow-y: auto;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-content: flex-start;
+}
+
+.machine-form {
+    min-width: 200px;
+}
+
+.machine {
+    position: relative;
+    min-width: 200px;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.2s;
+}
+
+.machine.droppable.hovering {
+    background: #f0f8ff;
+    box-shadow: 0 0 0 2px #4a90e2;
+}
+
+.machine-header {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.remove-pot-btn {
+    margin-top: 0.5rem;
+
 }

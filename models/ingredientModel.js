@@ -1,6 +1,6 @@
 export default class Ingredient {
     constructor(minMixSpeed, mixSpeed, color, structure) {
-        this.minMixSpeed = minMixSpeed;
+        this.minMixSpeed = minMixSpeed; //mixTime
         this.mixSpeed = mixSpeed;
         this.color = color;
         this.structure = structure;
@@ -11,7 +11,7 @@ export default class Ingredient {
     }
 
     getMixSpeed() {
-        return this.mixSpeed;
+        return Number(this.mixSpeed);
     }
 
     getColor() {
@@ -26,12 +26,13 @@ export default class Ingredient {
         const ingredientElement = document.createElement('div');
         ingredientElement.classList.add('ingredient', 'draggable');
         ingredientElement.draggable = true;
-        ingredientElement.style.backgroundColor = this.color;
+        ingredientElement.style.backgroundColor = `rgb(${this.color.r}, ${this.color.g}, ${this.color.b})`;
         ingredientElement.dataset.dragData = JSON.stringify({
             minMixSpeed: this.minMixSpeed,
             mixSpeed: this.mixSpeed,
             color: this.color,
-            structure: this.structure
+            structure: this.structure,
+            type: 'ingredient'
         });
 
         switch (this.structure) {

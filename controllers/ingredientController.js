@@ -1,3 +1,4 @@
+import ColorModel from '../models/colorModel.js';
 import Ingredient from '../models/ingredientModel.js';
 import { registerDraggableElement } from '../utils/dragAndDrop.js';
 
@@ -31,7 +32,7 @@ export default class IngredientController {
         const ingredient = new Ingredient(
             formData.get('minMixSpeed'),
             formData.get('mixSpeed'),
-            formData.get('color'),
+            ColorModel.hexToRgb(formData.get('color')),
             formData.get('structure')
         );
 

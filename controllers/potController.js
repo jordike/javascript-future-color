@@ -1,9 +1,10 @@
 import Pot from '../models/potModel.js';
-import { registerDroppableElement } from '../utils/dragAndDrop.js';
+import { registerDraggableElement, registerDroppableElement } from '../utils/dragAndDrop.js';
 
 export default class PotController {
     constructor() {
         this.pots = [];
+        this.mixedPots = [];
         this.potIdCounter = 0;
 
         this.form = document.querySelector('#pots-form');
@@ -23,6 +24,17 @@ export default class PotController {
         this.potsContainer.appendChild(potElement);
 
         registerDroppableElement(potElement, this.onIngredientDrop.bind(this), this.canDropIngredient.bind(this));
+        registerDraggableElement(potElement);
+    }
+
+    removePot(pot) {
+        this.pots = this.pots.filter(p => p.id !== pot.id);
+
+        // Remove DOM
+        const potElement = document.querySelector(`[data-drag-drop-id="${pot.id}"]`); // Keep this as is
+        if (potElement) {
+            potElement.remove();
+        }
     }
 
     onFormSubmit(event) {
@@ -36,23 +48,37 @@ export default class PotController {
     onIngredientDrop(potId, ingredient) {
         const pot = this.pots.find(pot => pot.id == potId);
 
-        if (!pot) {
-            throw new Error(`Pot with id ${potId} not found`);
+        if (pot) {
+            pot.addIngredient(ingredient);
         }
-
-        pot.addIngredient(ingredient);
     }
 
-    canDropIngredient(event, ingredient) {
-        const pot = this.pots.find(pot => pot.id == event.target.dataset.dragDropId);
-
-        if (!pot) {
-            throw new Error(`Pot with id ${event.target.dataset.dragDropId} not found`);
+    canDropIngredient(event, dragData) {
+        if (dragData.type !== 'ingredient') {
+            return {
+                canDrop: false,
+                message: null
+            };
         }
 
-        return {
-            canDrop: pot.canAddIngredient(ingredient),
-            message: 'Alleen ingrediënten met dezelfde mengsnelheid kunnen worden toegevoegd aan een pot'
-        };
+        const pot = this.pots.find(pot => pot.id == event.target.dataset.dragDropId);
+
+        if (pot) {
+            return {
+                canDrop: pot.canAddIngredient(dragData),
+                message: 'Alleen ingrediënten met dezelfde mengsnelheid kunnen worden toegevoegd aan een pot'
+            };
+        }
+    }
+
+    renderMixedPots() {
+        const mixedPotsContainer = document.querySelector('#mixed-pots');
+        mixedPotsContainer.innerHTML = '';
+    
+        this.mixedPots.forEach(pot => {
+            const potElement = pot.createPotElement();
+            mixedPotsContainer.appendChild(potElement);
+            registerDraggableElement(potElement);
+        });
     }
 }
