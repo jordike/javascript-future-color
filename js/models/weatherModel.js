@@ -1,4 +1,4 @@
-import config from "../assets/data/config.js";
+import config from '../config.js';
 
 export default class WeatherModel {
     static async fetchWeather(city) {
@@ -7,11 +7,10 @@ export default class WeatherModel {
         const currentTime = new Date().getTime();
 
         //Check if valid cache exists, otherwise fetches data (to prevent too many requests)
-        if (!weatherData || currentTime - lastFetched > config.CACHE_DURATION|| weatherData.city !== city) {
+        if (!weatherData || currentTime - lastFetched > config.CACHE_DURATION || weatherData.city !== city) {
             const response = await fetch(config.WEATHER_API_URL + city);
             const data = await response.json();
 
-            
             const { temp, image } = data.liveweer[0]; //Extracting only necessary data
             const extractedData = { city, temp, condition: image }; //Changed image to condition to make it more readable
             localStorage.setItem('weatherData', JSON.stringify(extractedData));

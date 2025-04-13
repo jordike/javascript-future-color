@@ -1,6 +1,6 @@
-import Ingredient from './ingredientModel.js';
+import IngredientModel from './IngredientModel.js';
 
-export default class Pot {
+export default class PotModel {
     constructor(id) {
         this.id = id;
         this.ingredients = [];
@@ -15,7 +15,7 @@ export default class Pot {
         const ingredientElement = this.createIngredientElement(ingredient);
         const potElement = document.querySelector(`.pot[data-drag-drop-id="${this.id}"]`);
 
-        this.ingredients.push(new Ingredient(ingredient.minMixSpeed, ingredient.mixSpeed, ingredient.color, ingredient.structure));
+        this.ingredients.push(new IngredientModel(ingredient.minMixSpeed, ingredient.mixSpeed, ingredient.color, ingredient.structure));
         potElement.appendChild(ingredientElement);
     }
 

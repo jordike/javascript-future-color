@@ -1,6 +1,6 @@
-import ColorModel from '../models/colorModel.js';
-import Ingredient from '../models/ingredientModel.js';
-import { registerDraggableElement } from '../utils/dragAndDrop.js';
+import ColorModel from '../models/ColorModel.js';
+import IngredientModel from '../models/IngredientModel.js';
+import { registerDraggableElement } from '../dragAndDrop.js';
 
 export default class IngredientController {
     constructor() {
@@ -13,7 +13,7 @@ export default class IngredientController {
     }
 
     addIngredient(ingredient) {
-        if (!(ingredient instanceof Ingredient)) {
+        if (!(ingredient instanceof IngredientModel)) {
             throw new Error('Ingredient must be an instance of Ingredient');
         }
 
@@ -29,7 +29,7 @@ export default class IngredientController {
         event.preventDefault();
 
         const formData = new FormData(this.form);
-        const ingredient = new Ingredient(
+        const ingredient = new IngredientModel(
             formData.get('minMixSpeed'),
             formData.get('mixSpeed'),
             ColorModel.hexToRgb(formData.get('color')),

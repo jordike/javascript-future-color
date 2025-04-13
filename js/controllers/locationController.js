@@ -1,7 +1,6 @@
-import LocationModel from '../models/locationModel.js';
+import LocationModel from '../models/LocationModel.js';
 
 export default class LocationController {
-
     static updateCity(selectedCity) {
         LocationModel.setCity(selectedCity);
     }
@@ -12,12 +11,12 @@ export default class LocationController {
 
     //Loading cities from csv that current API supports for the dropdown menu
     static loadCityOptions() {
-        fetch('../assets/data/cities.csv')
+        fetch('../data/cities.csv')
             .then(response => response.text())
             .then(csvText => {
                 const cities = LocationController.parseCSV(csvText);
                 const dropdown = document.getElementById('cityDropdown');
-                
+
                 cities.forEach(city => {
                     const option = document.createElement('option');
                     option.value = city;
@@ -25,7 +24,7 @@ export default class LocationController {
                     dropdown.appendChild(option);
                 });
 
-                //Selects default or last selected city. 
+                //Selects default or last selected city.
                 dropdown.value = LocationController.getCity();
 
                 const applyButton = document.getElementById('applyCityButton');
@@ -39,6 +38,6 @@ export default class LocationController {
     //Splits csv text into an array of cities
     static parseCSV(csvText) {
         const rows = csvText.trim().split('\n');
-        return rows.map(row => row.trim().replace(/^'|'$/g, '')); 
+        return rows.map(row => row.trim().replace(/^'|'$/g, ''));
     }
 }

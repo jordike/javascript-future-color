@@ -1,6 +1,6 @@
-import ColorTestModel from '../models/colorTestModel.js';
-import ColorModel from '../models/colorModel.js';
-import { registerDroppableElement } from '../utils/dragAndDrop.js';
+import ColorTestModel from '../models/ColorTestModel.js';
+import ColorModel from '../models/ColorModel.js';
+import { registerDroppableElement } from '../dragAndDrop.js';
 
 export default class ColorTestController {
     constructor() {

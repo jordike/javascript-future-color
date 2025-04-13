@@ -1,5 +1,5 @@
-import WeatherModel from '../models/weatherModel.js';
-import LocationController from '../controllers/locationController.js';
+import WeatherModel from '../models/WeatherModel.js';
+import LocationController from './LocationController.js';
 
 export default class WeatherController {
     static async getWeatherData() {

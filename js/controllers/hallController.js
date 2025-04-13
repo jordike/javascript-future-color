@@ -1,6 +1,6 @@
-import HallModel from '../models/hallModel.js';
-import MachineController from './machineController.js';
-import { registerDroppableElement } from '../utils/dragAndDrop.js';
+import HallModel from '../models/HallModel.js';
+import MachineController from './MachineController.js';
+import { registerDroppableElement } from '../dragAndDrop.js';
 
 export default class HallController {
     constructor(potController) {

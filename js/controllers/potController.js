@@ -1,5 +1,5 @@
-import Pot from '../models/potModel.js';
-import { registerDraggableElement, registerDroppableElement } from '../utils/dragAndDrop.js';
+import PotModel from '../models/PotModel.js';
+import { registerDraggableElement, registerDroppableElement } from '../dragAndDrop.js';
 
 export default class PotController {
     constructor() {
@@ -14,7 +14,7 @@ export default class PotController {
     }
 
     addPot(pot) {
-        if (!(pot instanceof Pot)) {
+        if (!(pot instanceof PotModel)) {
             throw new Error('Pot must be an instance of Pot');
         }
 
@@ -40,7 +40,7 @@ export default class PotController {
     onFormSubmit(event) {
         event.preventDefault();
 
-        const pot = new Pot(++this.potIdCounter);
+        const pot = new PotModel(++this.potIdCounter);
 
         this.addPot(pot);
     }
